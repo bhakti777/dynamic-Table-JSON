@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 
-class TaskComponent extends React.Component {
+class TaskRowspanComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -57,7 +57,7 @@ class TaskComponent extends React.Component {
     const { stateUsers } = this.state;
 
     return (
-      <>
+      <div className="setmargin">
         <Table className="tableborder">
           <thead>
             <tr>
@@ -89,7 +89,8 @@ class TaskComponent extends React.Component {
                         );
                       }
                     })}
-                    </tr>
+                </tr>
+
                     {users.user_data.length > 0 &&
                     users.user_data.map((user, index) => {
                       if (index > 0) {
@@ -105,18 +106,41 @@ class TaskComponent extends React.Component {
                         );
                       }
                     })}
+
+
                   <tr>
                     <th colspan="3">Total</th>
                     <td><strong>{totalAmount}</strong></td>
                   </tr>
                 </>
+
               );
             })}
+            
           </tbody>
         </Table>
-      </>
+      </div>
     );
   }
 }
 
-export default TaskComponent;
+export default TaskRowspanComponent;
+//  <td rowSpan={studentDetails.studentReceiptHistory.length}>{studentDetails.RollNo}</td>
+//                         <td rowSpan={studentDetails.studentReceiptHistory.length}>{studentDetails.FirstName} {studentDetails.LastName}</td>
+//                         <td rowSpan={studentDetails.studentReceiptHistory.length}>{studentDetails.Caste}</td> */}
+
+//                         {Object.values(studentDetails).length>0 &&
+//                           Object.values(studentDetails.studentReceiptHistory).map((data,index)=>{
+//                               if(index==0){
+//                            return (<><td>{data.receiptNumber}</td><td>{data.paymentDate}</td></>)}})
+//                           }
+               
+//                          </tr>
+//                          {Object.values(studentDetails).length > 0 &&
+//                           Object.values(studentDetails.studentReceiptHistory).map((data,index)=>{
+//                            if(index>0){ 
+//                            return (<tr><td>{data.receiptNumber}</td><td>{data.paymentDate}</td></tr>)}})
+//                           }
+                
+                         
+                  
