@@ -379,7 +379,8 @@ class TaskColspanComponent extends React.Component {
                   {Object.values(stateStudentFees.data).map((studentDetails)=>{
 
                             console.log("length=>",studentDetails.studentReceiptHistory.length);
-
+                             let totalFees=0;
+                             let totalCurrentFees=0;
                       return( 
                       <>
                       <tr>
@@ -389,54 +390,47 @@ class TaskColspanComponent extends React.Component {
 
                          {Object.values(studentDetails.studentReceiptHistory).length>0 ?
                            Object.values(studentDetails.studentReceiptHistory).map((studData,index)=>{
+
                                if(index==0){
                             return (<>
-                            <td>{studData.receiptNumber}</td><td>{studData.paymentDate}</td>
+                                      <td>{studData.receiptNumber}</td>
+                                      <td>{studData.paymentDate}</td>
 
                                 {Object.values(stateStudentFees.feeHeads).map((feeheader)=>{
                                   // console.log("fees key",Object.keys(studData.feesHistory));
                                   // console.log("feesheader headId",feeheader.headId);
+
+                                  let fees=studData.feesHistory[feeheader.headId]!=undefined ? studData.feesHistory[feeheader.headId] : {};
+                                  if(Object.keys(fees).length>0){
+                                    totalFees=totalFees+fees.currentPaidAmount //col total
+                                  }
                                     return(
                                         <>
                                         {
-                                            Object.keys(studData.feesHistory).length >0 && Object.keys(studData.feesHistory).includes(feeheader.headId.toString()) ?
-                                            
-                                                Object.keys(studData.feesHistory).map((feesId,index)=>{
-                                                     if(index==0){
-                                                    let fees=studData.feesHistory[feesId];
-                                                    console.log("parseInt(feeheader.headId ,parseInt(feesId)",parseInt(feeheader.headId),parseInt(feesId));
-                                                if(parseInt(feeheader.headId)==parseInt(feesId)){
-                                                    return(
-                                                      <>
-                                                        <td>{fees.currentPaidAmount}</td>
-                                                      </>
-                                                    )
-                                                    }
-                                 } })
-                                               
-                                                :
-                                            <>
-                                            <td>0</td>
-                                            </>
+                                            Object.keys(fees).length>0 ?
+                                              <>
+                                              <td>{fees.currentPaidAmount}</td>
+                                              </>
+                                              
+                                              : <td>0</td>
+                                             
                                         }
                                         </>
                                         
                                     )   
                                 })}
+                              
+                              <td><strong>{totalFees}</strong></td>
+
                             </>)}})
                             
                             :
                             <>
                             <td></td>
-                            
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
                             </>
                            }
-                          {Object.values(studentDetails.totalFeesPaid).map((totalfees)=>{
-                                    
-                              console.log("total fee>",totalfees);
-
-                              return <td>{totalfees}</td>
-                            })}
+                           
                           </tr>
 
                           {Object.values(studentDetails.studentReceiptHistory).length > 0 &&
@@ -448,42 +442,50 @@ class TaskColspanComponent extends React.Component {
                               <td>{studData.paymentDate}</td>
                               
                               {
-                                Object.values(stateStudentFees.feeHeads).map((feeheader)=>{
-                          
+                                Object.values(studentDetails.studentReceiptHistory).length>0 ?
+                                Object.values(studentDetails.studentReceiptHistory).map((studData,index)=>{
+                                    if(index>0){
+                                 return (<>
+     
+                                  {Object.values(stateStudentFees.feeHeads).map((feeheader)=>{
+                                  // console.log("fees key",Object.keys(studData.feesHistory));
+                                  // console.log("feesheader headId",feeheader.headId);
+                                
+                                  let fees=studData.feesHistory[feeheader.headId]!=undefined ? studData.feesHistory[feeheader.headId] : {};
+                                  if(Object.keys(fees).length>0){
+                                    totalCurrentFees=totalCurrentFees+fees.currentPaidAmount //from 1st index row-wise total 
+                                    totalFees=totalFees+fees.currentPaidAmount // column addition 
+                                  }
                                     return(
                                         <>
                                         {
-                                            Object.keys(studData.feesHistory).length >0 && Object.keys(studData.feesHistory).includes(feeheader.headId.toString()) ?
-                                            
-                                                Object.keys(studData.feesHistory).map((feesId,index)=>{
-                                                     if(index>0){
-                                                    let fees=studData.feesHistory[feesId];
-                                                    console.log("parseInt(feeheader.headId ,parseInt(feesId)",parseInt(feeheader.headId),parseInt(feesId));
-                                                if(parseInt(feeheader.headId)==parseInt(feesId)){
-                                                    return(
-                                                      <>
-                                                        <tr><td>{fees.currentPaidAmount}</td></tr>
-                                                      </>
-                                                    )
-                                                    }
-                                             } })
-                                               
-                                                :
-                                            <>
-                                            <td>0</td>
-                                            </>
+                                            Object.keys(fees).length>0 ?
+                                              <>
+                                              <td>{fees.currentPaidAmount}</td>
+                                              </> 
+                                              : <td>0</td>
                                         }
                                         </>
                                         
                                     )   
-                                })
+                                })}
+
+                                <td><strong>{totalCurrentFees}</strong></td>
+
+                                 </>)}})
+                                 
+                                 :
+                                 <>
+                                 <td></td>
+                                 
+                                 </>
                               }
 
                               </tr>
                             )}})
                           }
            
-                          <tr>
+                          <tr className="set-border">
                             <td></td>
                             <td></td>
                             <td><strong>Total</strong></td>
@@ -491,9 +493,10 @@ class TaskColspanComponent extends React.Component {
                             <td></td>
                             <td></td>
                             <td></td>
-                          </tr>
-                         
-                         
+                            <td></td>
+                            <td></td>
+                            <td><strong>{totalFees}</strong></td>
+                          </tr>             
                       </>
                       
                   )})}
