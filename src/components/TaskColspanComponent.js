@@ -347,161 +347,248 @@ class TaskColspanComponent extends React.Component {
     };
 
     this.state = {
-        stateStudentFees:initialState
+      stateStudentFees: initialState,
     };
   }
   render() {
-      const {stateStudentFees}=this.state;
-      console.log("stateStudentFees=>",stateStudentFees.feeHeads);
-      console.log("HeadNames=>",Object.keys(stateStudentFees.feeHeads));
+    const { stateStudentFees } = this.state;
+    console.log("stateStudentFees=>", stateStudentFees.feeHeads);
+    console.log("HeadNames=>", Object.keys(stateStudentFees.feeHeads));
 
     return (
       <>
         <Table striped bordered hover size="sm" className="table-setborder">
           <thead>
+
             <tr>
               <th rowSpan="2">Roll No</th>
               <th rowSpan="2">Student Name</th>
               <th rowSpan="2">Category</th>
-              {<th colSpan={Object.keys(stateStudentFees.feeHeads).length+3}>Fees received by student</th>}
+              {
+                <th colSpan={Object.keys(stateStudentFees.feeHeads).length + 3}>
+                  Fees received by student
+                </th>
+              }
             </tr>
+
             <tr>
               <th>Receipt Number</th>
               <th>Received Fees Date</th>
-              {Object.values(stateStudentFees.feeHeads).map((feeheader)=>{return(
-                  <th>{feeheader.headName}</th>
-              )})}
+              {Object.values(stateStudentFees.feeHeads).map((feeheader) => {
+                return <th>{feeheader.headName}</th>;
+              })}
               <th>Total Fees</th>
             </tr>
+
           </thead>
 
+
+
           <tbody>
-                  {Object.values(stateStudentFees.data).map((studentDetails)=>{
 
-                            console.log("length=>",studentDetails.studentReceiptHistory.length);
-                             let totalFees=0;
-                             let totalCurrentFees=0;
-                      return( 
-                      <>
-                      <tr>
-                         <td rowSpan={Object.keys(studentDetails.studentReceiptHistory).length >0 ? Object.keys(studentDetails.studentReceiptHistory).length : 1}>{studentDetails.RollNo}</td>
-                         <td rowSpan={Object.keys(studentDetails.studentReceiptHistory).length >0 ? Object.keys(studentDetails.studentReceiptHistory).length : 1}>{studentDetails.FirstName} {studentDetails.LastName}</td>
-                         <td rowSpan={Object.keys(studentDetails.studentReceiptHistory).length >0 ? Object.keys(studentDetails.studentReceiptHistory).length : 1}>{studentDetails.Caste}</td> 
+            {Object.values(stateStudentFees.data).map((studentDetails) => {
+              console.log(
+                "length=>",
+                studentDetails.studentReceiptHistory.length
+              );
+              let totalFees = 0;
+              let totalCurrentFees = 0;
+              return (
+                <>
+                  <tr>
+                    <td
+                      rowSpan={
+                        Object.keys(studentDetails.studentReceiptHistory)
+                          .length > 0
+                          ? Object.keys(studentDetails.studentReceiptHistory)
+                              .length
+                          : 1
+                      }
+                    >
+                      {studentDetails.RollNo}
+                    </td>
+                    <td
+                      rowSpan={
+                        Object.keys(studentDetails.studentReceiptHistory)
+                          .length > 0
+                          ? Object.keys(studentDetails.studentReceiptHistory)
+                              .length
+                          : 1
+                      }
+                    >
+                      {studentDetails.FirstName} {studentDetails.LastName}
+                    </td>
+                    <td
+                      rowSpan={
+                        Object.keys(studentDetails.studentReceiptHistory)
+                          .length > 0
+                          ? Object.keys(studentDetails.studentReceiptHistory)
+                              .length
+                          : 1
+                      }
+                    >
+                      {studentDetails.Caste}
+                    </td>
 
-                         {Object.values(studentDetails.studentReceiptHistory).length>0 ?
-                           Object.values(studentDetails.studentReceiptHistory).map((studData,index)=>{
-
-                               if(index==0){
-                            return (<>
-                                      <td>{studData.receiptNumber}</td>
-                                      <td>{studData.paymentDate}</td>
-
-                                {Object.values(stateStudentFees.feeHeads).map((feeheader)=>{
-                                  // console.log("fees key",Object.keys(studData.feesHistory));
-                                  // console.log("feesheader headId",feeheader.headId);
-
-                                  let fees=studData.feesHistory[feeheader.headId]!=undefined ? studData.feesHistory[feeheader.headId] : {};
-                                  if(Object.keys(fees).length>0){
-                                    totalFees=totalFees+fees.currentPaidAmount //col total
-                                  }
-                                    return(
-                                        <>
-                                        {
-                                            Object.keys(fees).length>0 ?
-                                              <>
-                                              <td>{fees.currentPaidAmount}</td>
-                                              </>
-                                              
-                                              : <td>0</td>
-                                             
-                                        }
-                                        </>
-                                        
-                                    )   
-                                })}
-                              
-                              <td><strong>{totalFees}</strong></td>
-
-                            </>)}})
-                            
-                            :
-                            <>
-                            <td></td>
-                            <td></td><td></td><td></td><td></td><td></td><td></td>
-                            </>
-                           }
-                           
-                          </tr>
-
-                          {Object.values(studentDetails.studentReceiptHistory).length > 0 &&
-                           Object.values(studentDetails.studentReceiptHistory).map((studData,index)=>{
-                            if(index>0){ 
+                    {Object.values(studentDetails.studentReceiptHistory)
+                      .length > 0 ? (
+                      Object.values(studentDetails.studentReceiptHistory).map(
+                        (studData, index) => {
+                          if (index == 0) {
                             return (
+                              <>
+                                <td>{studData.receiptNumber}</td>
+                                <td>{studData.paymentDate}</td>
+
+                                {Object.values(stateStudentFees.feeHeads).map(
+                                  (feeheader) => {
+                                    // console.log("fees key",Object.keys(studData.feesHistory));
+                                    // console.log("feesheader headId",feeheader.headId);
+
+                                    let fees =
+                                      studData.feesHistory[feeheader.headId] !=
+                                      undefined
+                                        ? studData.feesHistory[feeheader.headId]
+                                        : {};
+                                    if (Object.keys(fees).length > 0) {
+                                      totalFees =
+                                        totalFees + fees.currentPaidAmount; //col total
+                                    }
+                                    return (
+                                      <>
+                                        {Object.keys(fees).length > 0 ? (
+                                          <>
+                                            <td>{fees.currentPaidAmount}</td>
+                                          </>
+                                        ) : (
+                                          <td>0</td>
+                                        )}
+                                      </>
+                                    );
+                                  }
+                                )}
+
+                                <td>
+                                  <strong>{totalFees}</strong>
+                                </td>
+                              </>
+                            );
+                          }
+                        }
+                      )
+                    ) 
+                    
+                    : (
+                      <>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </>
+                    )}
+                  </tr>
+
+                  {Object.values(studentDetails.studentReceiptHistory).length >
+                    0 &&
+                    Object.values(studentDetails.studentReceiptHistory).map(
+                      (studData, index) => {
+                        if (index > 0) {
+                          return (
                             <tr>
                               <td>{studData.receiptNumber}</td>
                               <td>{studData.paymentDate}</td>
-                              
-                              {
-                                Object.values(studentDetails.studentReceiptHistory).length>0 ?
-                                Object.values(studentDetails.studentReceiptHistory).map((studData,index)=>{
-                                    if(index>0){
-                                 return (<>
-     
-                                  {Object.values(stateStudentFees.feeHeads).map((feeheader)=>{
-                                  // console.log("fees key",Object.keys(studData.feesHistory));
-                                  // console.log("feesheader headId",feeheader.headId);
-                                
-                                  let fees=studData.feesHistory[feeheader.headId]!=undefined ? studData.feesHistory[feeheader.headId] : {};
-                                  if(Object.keys(fees).length>0){
-                                    totalCurrentFees=totalCurrentFees+fees.currentPaidAmount //from 1st index row-wise total 
-                                    totalFees=totalFees+fees.currentPaidAmount // column addition 
+
+                              {Object.values(
+                                studentDetails.studentReceiptHistory
+                              ).length > 0 ? (
+                                Object.values(
+                                  studentDetails.studentReceiptHistory
+                                ).map((studData, index) => {
+                                  if (index > 0) {
+                                    return (
+                                      <>
+                                        {Object.values(
+                                          stateStudentFees.feeHeads
+                                        ).map((feeheader) => {
+                                          // console.log("fees key",Object.keys(studData.feesHistory));
+                                          // console.log("feesheader headId",feeheader.headId);
+
+                                          let fees =
+                                            studData.feesHistory[
+                                              feeheader.headId
+                                            ] != undefined
+                                              ? studData.feesHistory[
+                                                  feeheader.headId
+                                                ]
+                                              : {};
+                                          if (Object.keys(fees).length > 0) {
+                                            totalCurrentFees =
+                                              totalCurrentFees +
+                                              fees.currentPaidAmount; //from 1st index row-wise total
+                                            totalFees =
+                                              totalFees +
+                                              fees.currentPaidAmount; // column addition
+                                          }
+                                          return (
+                                            <>
+                                              {Object.keys(fees).length > 0 ? (
+                                                <>
+                                                  <td>
+                                                    {fees.currentPaidAmount}
+                                                  </td>
+                                                </>
+                                              ) : (
+                                                <td>0</td>
+                                              )}
+                                            </>
+                                          );
+                                        })}
+
+                                        <td>
+                                          <strong>{totalCurrentFees}</strong>
+                                        </td>
+                                      </>
+                                    );
                                   }
-                                    return(
-                                        <>
-                                        {
-                                            Object.keys(fees).length>0 ?
-                                              <>
-                                              <td>{fees.currentPaidAmount}</td>
-                                              </> 
-                                              : <td>0</td>
-                                        }
-                                        </>
-                                        
-                                    )   
-                                })}
+                                })
+                              ) 
+                              
+                              : (
+                                <>
+                                  <td></td>
+                                </>
+                              )}
+                            </tr>
+                          );
+                        }
+                      }
+                    )}
 
-                                <td><strong>{totalCurrentFees}</strong></td>
 
-                                 </>)}})
-                                 
-                                 :
-                                 <>
-                                 <td></td>
-                                 
-                                 </>
-                              }
 
-                              </tr>
-                            )}})
-                          }
-           
-                          <tr className="set-border">
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>{totalFees}</strong></td>
-                          </tr>             
-                      </>
-                      
-                  )})}
+                  <tr className="set-border">
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <strong>Total</strong>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <strong>{totalFees}</strong>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
           </tbody>
-
         </Table>
       </>
     );
